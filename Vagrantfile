@@ -38,6 +38,7 @@ Vagrant.configure("2") do |config|
       gem install rails -v #{GUEST_RAILS_VERSION}
       echo '### installing SQLITE3 ###'
       sudo apt install libsqlite3-dev
+      sudo apt install sqlite3
       echo '### installing NodeJS ###'
       sudo apt install -y nodejs npm
       sudo npm install n -g
@@ -46,6 +47,9 @@ Vagrant.configure("2") do |config|
       sudo apt -y autoremove
       sudo npm install yarn -g
       sudo chown -R $USER:$GROUP ~/.config
+      echo '### increasing inotify ###'
+      sudo sh -c "echo fs.inotify.max_user_watches=524288 >> /etc/sysctl.conf"
+      sudo sysctl -p
       echo ' -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-'
       echo 'You are now on Rails!'
       echo ' -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-'
